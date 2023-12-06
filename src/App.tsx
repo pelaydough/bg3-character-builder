@@ -14,6 +14,7 @@ function App() {
     const selectedRace =
       races.find((race) => race.name === selectedName) || races[0];
     setRace(selectedRace);
+    // Adding this comment to check if contributions work.
   };
 
   const handleSubraceChange = (event: ChangeEvent<HTMLSelectElement>) => {
