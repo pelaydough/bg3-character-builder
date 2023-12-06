@@ -1,0 +1,15 @@
+nav a, nav span {
+	margin-right: 1.25rem;
+}
+
+nav a:last-of-type {
+	margin-right: 0;
+}
+
+nav a {
+	cursor: pointer;
+}
+
+nav a:hover {
+	border-bottom: 1px solid white;
+}
