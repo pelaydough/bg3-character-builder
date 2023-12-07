@@ -7,18 +7,23 @@ import "./App.css";
 
 function App() {
   const [race, setRace] = useState(races[0]);
-  const [subrace, setSubrace] = useState("");
+  const [subrace, setSubrace] = useState("Black Dragonborn");
+  const [origin, setOrigin] = useState(origins[0].name);
 
   const handleRaceChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedName = event.target.value;
     const selectedRace =
       races.find((race) => race.name === selectedName) || races[0];
     setRace(selectedRace);
-    // Adding this comment to check if contributions work.
+    selectedRace.subraces ? setSubrace(selectedRace.subraces[0].name) : null;
   };
 
   const handleSubraceChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSubrace(event.target.value);
+  };
+
+  const handleOriginChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setOrigin(event.target.value);
   };
 
   return (
@@ -46,9 +51,15 @@ function App() {
           </div>
           <div className="flex flex-col w-2/5 ml-4">
             <label className="mb-2 text-xs">Origin:</label>
-            <select className="bg-dark border py-1 px-1 border-r-8 border-t-transparent border-x-transparent">
+            <select
+              value={origin}
+              onChange={handleOriginChange}
+              className="bg-dark border py-1 px-1 border-r-8 border-t-transparent border-x-transparent"
+            >
               {origins.map((origin) => (
-                <option>{origin.name}</option>
+                <option value={origin.name} key={origin.name}>
+                  {origin.name}
+                </option>
               ))}
             </select>
           </div>
