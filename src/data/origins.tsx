@@ -4,9 +4,11 @@ const origins = [
   },
   {
     name: "Astarion",
+    description: "A really horny vampire.",
   },
   {
     name: "Gale",
+    description: "The wizard man, abra kadabra!",
   },
   {
     name: "Karlach",

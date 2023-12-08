@@ -19,3 +19,11 @@ nav a:hover {
 	font-size: 0.75rem;
 	line-height: 1rem;
 }
+
+.tab {
+	cursor: pointer;
+}
+
+.tab:hover {
+	color: rgb(234 179 8)
+}
