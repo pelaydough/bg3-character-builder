@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 import abilitiesData from "../data/abilities";
 
@@ -45,45 +45,72 @@ const Abilities = () => {
     }
   };
 
-  const plusTwoChecked = (abilityName: string) => {
+  const checkProficiencyToggle = (
+    abilityName: string,
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
     const selectedAbility = findSelectedAbility(abilityName);
 
     if (selectedAbility) {
-      setAbilities((prevAbilities) =>
-        prevAbilities.map((ability) =>
-          ability.name === abilityName && ability.plusTwo == false
-            ? {
-                ...ability,
-                score: ability.score + 2,
-                plusTwo: true,
-                plusOne: false,
-              }
-            : ability.plusTwo == true
-            ? { ...ability, score: ability.score - 2, plusTwo: false }
-            : ability
-        )
-      );
-    }
-  };
+      if (event.target.name === "plusOneChecked") {
+        setAbilities((prevAbilities) =>
+          prevAbilities.map((ability) =>
+            ability.name === abilityName &&
+            ability.plusOne == false &&
+            ability.plusTwo == true
+              ? {
+                  ...ability,
+                  score: ability.score - 1,
+                  plusOne: true,
+                  plusTwo: false,
+                }
+              : ability.name === abilityName && ability.plusOne == false
+              ? {
+                  ...ability,
+                  score: ability.score + 1,
+                  plusOne: true,
+                  plusTwo: false,
+                }
+              : ability.name === abilityName && ability.plusOne == true
+              ? {
+                  ...ability,
+                  score: ability.score - 1,
+                  plusOne: false,
+                }
+              : ability
+          )
+        );
+      }
 
-  const plusOneChecked = (abilityName: string) => {
-    const selectedAbility = findSelectedAbility(abilityName);
-
-    if (selectedAbility) {
-      setAbilities((prevAbilities) =>
-        prevAbilities.map((ability) =>
-          ability.name === abilityName && ability.plusOne == false
-            ? {
-                ...ability,
-                score: ability.score + 1,
-                plusTwo: false,
-                plusOne: true,
-              }
-            : ability.plusOne == true
-            ? { ...ability, score: ability.score - 1, plusOne: false }
-            : ability
-        )
-      );
+      if (event.target.name === "plusTwoChecked") {
+        setAbilities((prevAbilities) =>
+          prevAbilities.map((ability) =>
+            ability.name === abilityName &&
+            ability.plusTwo == false &&
+            ability.plusOne == true
+              ? {
+                  ...ability,
+                  score: ability.score + 1,
+                  plusOne: false,
+                  plusTwo: true,
+                }
+              : ability.name === abilityName && ability.plusTwo == false
+              ? {
+                  ...ability,
+                  score: ability.score + 2,
+                  plusOne: false,
+                  plusTwo: true,
+                }
+              : ability.name === abilityName && ability.plusTwo == true
+              ? {
+                  ...ability,
+                  score: ability.score - 2,
+                  plusTwo: false,
+                }
+              : ability
+          )
+        );
+      }
     }
   };
 
@@ -127,8 +154,8 @@ const Abilities = () => {
         <div>
           <span>Bonus</span>
           <div>
-            <span>+2</span>
             <span>+1</span>
+            <span>+2</span>
           </div>
         </div>
       </div>
@@ -158,14 +185,20 @@ const Abilities = () => {
             </div>
             <div>
               <input
-                // checked={ability.plusTwo}
-                name="abilityProficiency"
-                type="radio"
+                onChange={(event) =>
+                  checkProficiencyToggle(ability.name, event)
+                }
+                name="plusOneChecked"
+                type="checkbox"
+                checked={ability.plusOne}
               />
               <input
-                // checked={ability.plusOne}
-                name="abilityProficiency"
-                type="radio"
+                onChange={(event) =>
+                  checkProficiencyToggle(ability.name, event)
+                }
+                name="plusTwoChecked"
+                type="checkbox"
+                checked={ability.plusTwo}
               />
             </div>
           </div>
