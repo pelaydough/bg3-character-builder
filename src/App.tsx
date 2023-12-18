@@ -218,6 +218,23 @@ function App() {
     }
   };
 
+  const checkAbilityModifier = (abilityName: string) => {
+    const selectedAbility = findSelectedAbility(abilityName);
+
+    if (selectedAbility) {
+      if (selectedAbility.score < 10) return "-1";
+      if (selectedAbility.score >= 10 && selectedAbility.score < 12)
+        return "+0";
+      if (selectedAbility.score >= 12 && selectedAbility.score < 14)
+        return "+1";
+      if (selectedAbility.score >= 14 && selectedAbility.score < 16)
+        return "+2";
+      if (selectedAbility.score >= 16) return "+3";
+    }
+
+    throw new Error(`Unable to find ability ${abilityName}`);
+  };
+
   return (
     <>
       <section className="flex items-center py-4 pl-3 pr-4 justify-between">
@@ -239,6 +256,7 @@ function App() {
         race={race}
         subrace={subrace}
         abilities={abilities}
+        checkAbilityModifier={checkAbilityModifier}
       />
     </>
   );

@@ -7,6 +7,7 @@ interface CharacterDataProps {
   race: Race;
   subrace: string;
   abilities: Ability[];
+  checkAbilityModifier: (abilityName: string) => string;
 }
 
 const CharacterData: React.FC<CharacterDataProps> = ({
@@ -14,6 +15,7 @@ const CharacterData: React.FC<CharacterDataProps> = ({
   race,
   subrace,
   abilities,
+  checkAbilityModifier,
 }) => {
   return (
     <div className="border my-2 mx-5 p-4 rounded-md flex flex-col items-center">
@@ -25,9 +27,11 @@ const CharacterData: React.FC<CharacterDataProps> = ({
         {abilities.map((ability) => (
           <div className="flex flex-col items-center">
             <span>{ability.acronym}</span>
-            <div>
+            <div className="flex items-center">
               <span>{ability.score}</span>
-              <span className="text-xs"> (+1)</span>
+              <span className="text-xs pl-1">
+                ({checkAbilityModifier(ability.name)})
+              </span>
             </div>
           </div>
         ))}
