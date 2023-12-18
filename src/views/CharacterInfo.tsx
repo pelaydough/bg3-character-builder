@@ -4,20 +4,15 @@ import origins from "../data/origins";
 import races from "../data/races";
 import backgrounds from "../data/backgrounds";
 
-interface Subrace {
-  name: string;
-}
-
-interface Race {
-  name: string;
-  subraces?: Subrace[];
-}
+import { Race } from "../interfaces";
 
 interface CharacterInfoProps {
+  characterName: string;
   race: Race;
   subrace: string;
   origin: string;
   background: string;
+  handleCharacterNameChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleRaceChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   handleSubraceChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   handleOriginChange: (event: ChangeEvent<HTMLSelectElement>) => void;
@@ -25,10 +20,12 @@ interface CharacterInfoProps {
 }
 
 const CharacterInfo: React.FC<CharacterInfoProps> = ({
+  characterName,
   race,
   subrace,
   origin,
   background,
+  handleCharacterNameChange,
   handleBackgroundChange,
   handleOriginChange,
   handleRaceChange,
@@ -43,6 +40,8 @@ const CharacterInfo: React.FC<CharacterInfoProps> = ({
             <input
               type="text"
               placeholder="Tav"
+              value={characterName}
+              onChange={handleCharacterNameChange}
               className="bg-dark border font-white py-1 px-2 border-x-transparent border-t-transparent"
             />
           </div>
