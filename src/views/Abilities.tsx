@@ -1,149 +1,32 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 
-import abilitiesData from "../data/abilities";
+interface Ability {
+  name: string;
+  score: number;
+  plusOne: boolean;
+  plusTwo: boolean;
+}
 
-const Abilities = () => {
-  const [abilities, setAbilities] = useState(abilitiesData);
-  const [abilityPoints, setAbilityPoints] = useState(27);
-
-  const findSelectedAbility = (abilityName: string) => {
-    const selectedAbility = abilities.find(
-      (ability) => ability.name === abilityName
-    );
-
-    return selectedAbility;
-  };
-
-  const addAbilityPoint = (abilityName: string) => {
-    const selectedAbility = findSelectedAbility(abilityName);
-
-    // Needs to check if score > 13. If so, deduct two points from abilityPoints.
-    if (selectedAbility) {
-      if (selectedAbility.score < 13 && abilityPoints >= 1) {
-        setAbilities((prevAbilities) =>
-          prevAbilities.map((ability) =>
-            ability.name === abilityName
-              ? { ...ability, score: ability.score + 1 }
-              : ability
-          )
-        );
-
-        setAbilityPoints((prevPoints) => prevPoints - 1);
-      }
-
-      if (selectedAbility.score >= 13 && abilityPoints >= 2) {
-        setAbilities((prevAbilities) =>
-          prevAbilities.map((ability) =>
-            ability.name === abilityName
-              ? { ...ability, score: ability.score + 1 }
-              : ability
-          )
-        );
-
-        setAbilityPoints((prevPoints) => prevPoints - 2);
-      }
-    }
-  };
-
-  const checkProficiencyToggle = (
+interface AbilitiesProps {
+  abilities: Ability[];
+  abilityPoints: number;
+  addAbilityPoint: (abilityName: string) => void;
+  subtractAbilityPoint: (abilityName: string) => void;
+  checkProficiencyToggle: (
     abilityName: string,
     event: ChangeEvent<HTMLInputElement>
-  ) => {
-    const selectedAbility = findSelectedAbility(abilityName);
+  ) => void;
+  resetAbilityPoints: () => void;
+}
 
-    if (selectedAbility) {
-      if (event.target.name === "plusOneChecked") {
-        setAbilities((prevAbilities) =>
-          prevAbilities.map((ability) =>
-            ability.name === abilityName &&
-            ability.plusOne == false &&
-            ability.plusTwo == true
-              ? {
-                  ...ability,
-                  score: ability.score - 1,
-                  plusOne: true,
-                  plusTwo: false,
-                }
-              : ability.name === abilityName && ability.plusOne == false
-              ? {
-                  ...ability,
-                  score: ability.score + 1,
-                  plusOne: true,
-                  plusTwo: false,
-                }
-              : ability.name === abilityName && ability.plusOne == true
-              ? {
-                  ...ability,
-                  score: ability.score - 1,
-                  plusOne: false,
-                }
-              : ability
-          )
-        );
-      }
-
-      if (event.target.name === "plusTwoChecked") {
-        setAbilities((prevAbilities) =>
-          prevAbilities.map((ability) =>
-            ability.name === abilityName &&
-            ability.plusTwo == false &&
-            ability.plusOne == true
-              ? {
-                  ...ability,
-                  score: ability.score + 1,
-                  plusOne: false,
-                  plusTwo: true,
-                }
-              : ability.name === abilityName && ability.plusTwo == false
-              ? {
-                  ...ability,
-                  score: ability.score + 2,
-                  plusOne: false,
-                  plusTwo: true,
-                }
-              : ability.name === abilityName && ability.plusTwo == true
-              ? {
-                  ...ability,
-                  score: ability.score - 2,
-                  plusTwo: false,
-                }
-              : ability
-          )
-        );
-      }
-    }
-  };
-
-  const subtractAbilityPoint = (abilityName: string) => {
-    const selectedAbility = findSelectedAbility(abilityName);
-
-    if (selectedAbility) {
-      setAbilities((prevAbilities) =>
-        prevAbilities.map((ability) =>
-          ability.name === abilityName
-            ? { ...ability, score: ability.score - 1 }
-            : ability
-        )
-      );
-
-      if (selectedAbility.score < 14) {
-        setAbilityPoints((prevPoints) => prevPoints + 1);
-      }
-
-      if (selectedAbility.score >= 14) {
-        setAbilityPoints((prevPoints) => prevPoints + 2);
-      }
-    }
-  };
-
-  const resetAbilityPoints = () => {
-    setAbilities((prevAbilities) =>
-      prevAbilities.map((ability) => ability && { ...ability, score: 8 })
-    );
-
-    setAbilityPoints(27);
-  };
-
+const Abilities: React.FC<AbilitiesProps> = ({
+  abilities,
+  abilityPoints,
+  addAbilityPoint,
+  subtractAbilityPoint,
+  checkProficiencyToggle,
+  resetAbilityPoints,
+}) => {
   return (
     <div className="border my-2 mx-5 p-4 rounded-md">
       <div className="flex justify-between">
